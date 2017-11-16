@@ -1,0 +1,62 @@
+#! /usr/bin/vvp
+:ivl_version "0.9.7 " "(v0_9_7)";
+:vpi_time_precision + 0;
+:vpi_module "system";
+:vpi_module "v2005_math";
+:vpi_module "va_math";
+S_0x119f800 .scope module, "halfadder_t" "halfadder_t" 2 6;
+ .timescale 0 0;
+v0x11d2420_0 .var "a", 0 0;
+v0x11d24f0_0 .var "b", 0 0;
+v0x11d25a0_0 .net "carry", 0 0, v0x11d22d0_0; 1 drivers
+v0x11d2650_0 .net "sum", 0 0, v0x11d2370_0; 1 drivers
+S_0x11c1db0 .scope module, "M1" "halfadder" 2 9, 3 6, S_0x119f800;
+ .timescale 0 0;
+v0x11c1ea0_0 .net "a", 0 0, v0x11d2420_0; 1 drivers
+v0x11d2230_0 .net "b", 0 0, v0x11d24f0_0; 1 drivers
+v0x11d22d0_0 .var "carry", 0 0;
+v0x11d2370_0 .var "sum", 0 0;
+E_0x118bed0 .event edge, v0x11d2230_0, v0x11c1ea0_0;
+    .scope S_0x11c1db0;
+T_0 ;
+    %wait E_0x118bed0;
+    %load/v 8, v0x11c1ea0_0, 1;
+    %load/v 9, v0x11d2230_0, 1;
+    %xor 8, 9, 1;
+    %set/v v0x11d2370_0, 8, 1;
+    %load/v 8, v0x11c1ea0_0, 1;
+    %load/v 9, v0x11d2230_0, 1;
+    %and 8, 9, 1;
+    %set/v v0x11d22d0_0, 8, 1;
+    %jmp T_0;
+    .thread T_0, $push;
+    .scope S_0x119f800;
+T_1 ;
+    %vpi_call 2 12 "$dumpfile", "A3.vcd";
+    %vpi_call 2 13 "$dumpvars", 1'sb0, S_0x119f800;
+    %set/v v0x11d2420_0, 0, 1;
+    %set/v v0x11d24f0_0, 0, 1;
+    %delay 100, 0;
+    %set/v v0x11d2420_0, 0, 1;
+    %set/v v0x11d24f0_0, 1, 1;
+    %delay 100, 0;
+    %set/v v0x11d2420_0, 1, 1;
+    %set/v v0x11d24f0_0, 0, 1;
+    %delay 100, 0;
+    %set/v v0x11d2420_0, 1, 1;
+    %set/v v0x11d24f0_0, 1, 1;
+    %delay 100, 0;
+    %vpi_call 2 26 "$finish";
+    %end;
+    .thread T_1;
+    .scope S_0x119f800;
+T_2 ;
+    %vpi_call 2 30 "$monitor", "For input operands %d and %d, sum is %d and carry is %d", v0x11d2420_0, v0x11d24f0_0, v0x11d2650_0, v0x11d25a0_0;
+    %end;
+    .thread T_2;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "halfadder_t.v";
+    "halfadder.v";

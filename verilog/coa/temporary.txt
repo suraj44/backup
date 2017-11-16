@@ -1,0 +1,23 @@
+module nbitAdder(e,f,sum1);
+	parameter n = 7;
+
+	input [n:0] e,f;	
+	output [n:0]sum1;
+	wire gout;
+	wire [n:0] gin;
+	genvar i;
+	
+	generate
+	
+	for(i=0;i<n;i=i+1)
+	begin: abc
+		if(i==0)
+			halfadder M3(e[0],f[0s],output[0],gin[0]);
+		else
+			fulladder M3(e[i],f[i],gin[i-1],output[i],gout);
+		
+	end
+	assign gout = gin[n];
+	endgenerate
+
+endmodule

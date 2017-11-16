@@ -1,0 +1,1 @@
+The 32 register register file code only works on newer versions of iverilog as the older versions do not support the syntax used. 
